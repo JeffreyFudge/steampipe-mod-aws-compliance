@@ -199,7 +199,7 @@ query "apigateway_stage_logging_enabled" {
     with all_stages as (
       select
         name as stage_name,
-        api_id,
+        rest_api_id as api_id,
         'arn:' || partition || ':apigateway:' || region || '::/apis/' || rest_api_id || '/stages/' || name as arn,
         method_settings -> '*/*' ->> 'LoggingLevel' as log_level,
         title,
@@ -212,6 +212,7 @@ query "apigateway_stage_logging_enabled" {
       union
       select
         stage_name,
+        api_id,
         'arn:' || partition || ':apigateway:' || region || '::/apis/' || api_id || '/stages/' || stage_name as arn,
         default_route_logging_level as log_level,
         title,
