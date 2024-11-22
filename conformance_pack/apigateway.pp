@@ -228,8 +228,8 @@ query "apigateway_stage_logging_enabled" {
         else 'ok'
       end as status,
       case
-        when log_level is null or log_level = '' or log_level = 'OFF' then title || ' logging not enabled: ' || apid_id || '.'
-        else title || ' logging enabled: ' || apid_id || '.'
+        when log_level is null or log_level = '' or log_level = 'OFF' then title || ' logging not enabled: ' || api_id || '.'
+        else title || ' logging enabled: ' || api_id || '.'
       end as reason
       ${local.tag_dimensions_sql}
       ${local.common_dimensions_sql}
