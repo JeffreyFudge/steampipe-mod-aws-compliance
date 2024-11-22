@@ -185,7 +185,7 @@ query "apigateway_stage_cache_encryption_at_rest_enabled" {
         when method_settings -> '*/*' ->> 'CachingEnabled' = 'true'
         and method_settings -> '*/*' ->> 'CacheDataEncrypted' = 'true'
           then title || ' API cache and encryption enabled.'
-        else title || ' API cache and encryption not enabled.'
+        else title || ' API cache and encryption not enabled: ' || rest_api_id || '.'
       end as reason
       ${local.tag_dimensions_sql}
       ${local.common_dimensions_sql}
@@ -249,7 +249,7 @@ query "apigateway_rest_api_stage_use_ssl_certificate" {
         else 'ok'
       end as status,
       case
-        when client_certificate_id is null then title || ' does not use SSL certificate.'
+        when client_certificate_id is null then title || ' does not use SSL certificate: ' || rest_api_id || '.'
         else title || ' uses SSL certificate.'
       end as reason
       ${local.tag_dimensions_sql}
@@ -269,7 +269,7 @@ query "apigateway_rest_api_stage_xray_tracing_enabled" {
       end as status,
       case
         when tracing_enabled then title || ' X-Ray tracing enabled.'
-        else title || ' X-Ray tracing disabled.'
+        else title || ' X-Ray tracing disabled: ' || rest_api_id || '.'
       end as reason
       ${local.tag_dimensions_sql}
       ${local.common_dimensions_sql}
@@ -288,7 +288,7 @@ query "apigateway_stage_use_waf_web_acl" {
       end as status,
       case
         when web_acl_arn is not null then title || ' associated with WAF web ACL.'
-        else title || ' not associated with WAF web ACL.'
+        else title || ' not associated with WAF web ACL: ' || rest_api_id || '.'
       end as reason
       ${local.tag_dimensions_sql}
       ${local.common_dimensions_sql}
